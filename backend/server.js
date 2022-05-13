@@ -10,6 +10,15 @@ dotenv.config({path:"backend/config/config.env"})
 //connecting to database
 connectDatabase();
 
-app.listen(process.env.PORT,()=>{
+const server=app.listen(process.env.PORT,()=>{
     console.log(`sever is connetced on PORT ${process.env.PORT}`);
+})
+
+
+process.on("unhandledRejection",err=>{
+    console.log(`Error ${err.message}`)
+    console.log('shutting down the server due to some technical issue')
+    server.close(()=>{
+        process.exit(1)
+    })
 })
