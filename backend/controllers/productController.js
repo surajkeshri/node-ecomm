@@ -1,7 +1,8 @@
 const Product = require("../models/productModel");
 const ErrorHandler = require("../utils/errorhandler");
 const mongoose=require('mongoose');
-const catchAysncErros=require('../middleware/catchAsyncErrors')
+const catchAysncErros=require('../middleware/catchAsyncErrors');
+const ApiFeatures = require("../utils/apifeatures");
 
 //Create product
 
@@ -15,7 +16,8 @@ exports.createProduct = catchAysncErros(async (req, res, next) => {
 
 //Get All Product
 exports.getAllProducts = catchAysncErros(async (req, res) => {
-  const products = await Product.find({});
+  const apifeature=new ApiFeatures(Product.find(),req.query)
+  const products = await Product.find();
   res.status(200).json({
     success: true,
     products,
